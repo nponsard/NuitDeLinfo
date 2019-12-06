@@ -10,17 +10,41 @@
 </head>
 
 <body>
-	<div id="page-selection" style="display:block;">
+	<div class="section" id="page-selection">
 		<div>
 
 			<div>
-				<input type="radio" id="cherche" name="drone" value="huey"
+				<input type="radio" id="cherche" name="mode" value="cherche"
          checked>
         <label for="cherche">Je cherche de l'aide d'autres étudiants</label>
       </div>
       <div>
-        <input type="radio" id="dewey" name="drone" value="dewey">
-        <label for="dewey">Je veux aider d'autres étudiants</label>
+        <input type="radio" id="aide" name="mode" value="aide">
+        <label class="radio" for="aide">Je veux aider d'autres étudiants</label>
+      </div>
+      <div>
+      <label for="lieu">Localisation : </label>
+      <select name="lieu" id="lieu">
+        <option value="AMU">Aix-Marseille</option>
+        <option value="Avignon">Avignon</option>
+        <option value="Nice">Nice</option>
+        <option value="Toulon">Toulon</option>
+        <option value="Grenoble">Grenoble</option>
+      </select>
+      </div> 
+      <div>
+      <label for="motif">Pour :  </label>
+
+      <select name="motif" id="motif">
+        <option value="logement">Se loger</option>
+        <option value="bourse">Obtenir la bourse</option>
+        <option value="travail">Trouver du travail</option>
+        <option value="manger">Se faire à manger / Où manger</option>
+        <option value="amis">Faire des rencontres</option>
+      </select>
+      </div>
+      <div class="div_valid_droite">
+        <input class="valid droite" type="submit" value="Valider" id="valid-selection">
       </div>
 
 
@@ -30,14 +54,14 @@
 
 	</div>
 
-	<div id="page-pseudo">
+	<div class="section" id="page-pseudo">
     <label id="text-pseudo" for="pseudo">Entrez votre pseudo : </label>
     <input type="text" id="pseudo">
-    <input type="submit" value="valider" id="valid-pseudo">
+    <input class="valid" type="submit" value="valider" id="valid-pseudo">
 	</div>
   
-	<div id="page-chat">
-	<textarea id="textarea" placeholder="Entrer pour envoyer votre message..."></textarea>
+	<div class="section" id="page-chat">
+	<textarea class="textarea" id="textarea" placeholder="Entrer pour envoyer votre message..."></textarea>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>

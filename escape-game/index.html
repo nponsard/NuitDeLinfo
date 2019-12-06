@@ -9,19 +9,52 @@
 </head>
 
 <body>
+<a href="img/chiffres1.png">aaaaaaa<img scr="img/chiffres1.png" alt="ah"></a>
+    
 
-  <h2 id="timer"></h2>
+  <div id="top">
+    <h2 id="timer"></h2>
+    <h3 class="erreur" id="erreurE1" style="display:none;">??????</h3>
+    <h3 class="erreur" id="erreurE2" style="display:none;">??????</h3>
+  </div>
+  
+  <div id="1">
+  <h1>Escape Game</h1>
+  <p>Vous êtes en route pour passer un entretien d'embauche à Divalto, malheureusement toutes les indications pour y aller ont été codées, à vous de les décoder avant la fin du temps imparti pour arriver à votre entretien à temps.</p>
+  <p> Entrez les bonnes coordonnées GPS</p>
+  <p> 2B.7DA64,5.6E207</p>
 
-  <h1>escape game</h1>
-  <p>Vous etes en route pour passer un entretien d'embauche à Divalto, malheureusement toutes les indications pour y aller ont été codé, à vous de les décoder avant la fin du temps imparti pour arriver à votre entretien à temps.</p>
+  <input type="text" id="gps">
+  <input type="button" id="btnGps" value="Itinéraire" onclick="e1()"></button>
+  </div>
 
-  <!--
-  <input type="text" id="txt">
-  -->
+  <div id="2" style="display:none;">
+    <p>Oups ! Visiblement on ne vous a pas donné les bonnes coordonnées. Maintenant que vous êtes ici repérez-vous à l'aide des panneaux, Cliquez sur le panneau qui indique "Divalto"</p>
+    <img scr="img/chiffres1.png">
+    <img scr="img/chiffres2.png">
+    <img scr="img/chiffres3.png" onclick="">
+    <img scr="img/chiffres4.png">
+  </div>
 
+  <div id="3" style="display:none;">
+   <p>Cliquez sur le panneau qui indique "Divalto"</p>
+  <img scr="img/cesar1.png">
+  <img scr="img/cesar2.png">
+  <img scr="img/cesar3.png" onclick="">
+  <img scr="img/cesar4.png">
+  </div>
+  <div id="4" style="display:none;">
+    <p>Cliquez sur le panneau qui indique "Divalto"</p>
+    <img scr="img/altbash1.png">
+    <img scr="img/altbash2.png">
+    <img scr="img/altbash3.png">
+    <img scr="img/altbash4.png" onclick="">
+  </div>
+  <div id="5" style="display:none;">
+   <p>Bien joué vous avez réussi à arriver jusqu'à l'immeuble. Maintenant il va falloir trouver le bon code pour dévérouiller la porte !</p>
+ </div>
 
   <script type="text/javascript" src="main.js"></script>
-  
   
 </body>
 </html>

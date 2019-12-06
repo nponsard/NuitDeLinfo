@@ -8,13 +8,6 @@ const http = require('http').createServer(app)
 
 
 
-// partie selection  
-
-
-
-
-
-
 
 
 
@@ -22,6 +15,10 @@ const http = require('http').createServer(app)
 
 // partie chat
 const io = require('socket.io')(http)
+
+let rooms = []
+
+
 
 var count = 0;
 let nextID = 1;
@@ -39,6 +36,46 @@ io.on('connection', function(socket){
     socket.uid = nextID
     ++nextID
     console.log(`${socket.pseudo} s'est connecté avec l'id #${socket.uid}`)
+  })
+  socket.on('selection',function(data){
+    // true : recherche false: aide
+    console.log(data)
+
+    socket.mode = data.mode
+    socket.localisation = data.localisation
+    socket.pour = data.pour
+
+    if (data.mode){
+      socket.roomid = rooms.length
+      rooms.push([socket])
+    } 
+    else
+    {
+      let trouve = false;
+      for(let i = 0; i < rooms.length; ++i){
+        if (rooms[i].length <= 3 && rooms[i][0].localisation === socket.localisation && rooms[i][0].pour === socket.pour )
+        {
+          socket.roomid = i
+          rooms[i].push(socket)
+          trouve = true
+          break;
+        }
+      }
+      if (trouve){
+        noms =[]
+        for (let i = 0; i< rooms[socket.roomid].length ; ++i){
+          noms.push()
+        }
+        socket.emit("openSession", {
+          "roomid" : socket.roomid,
+          "noms": noms,
+          mode
+        })
+      }
+    }
+
+
+
   })
 });
 
@@ -72,6 +109,8 @@ app.use('/rickroll', express.static(__dirname + '/Rickroll'));
 app.use('/escape', express.static(__dirname + '/escape-game'));
 app.use('/chat', express.static(__dirname + '/chat'));
 app.use('/', express.static(__dirname + '/.'));
+
+
 app.use(function(req, res, next) {
   res.redirect( '/404-game')
 });

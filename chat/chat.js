@@ -1,5 +1,10 @@
 //selection
 let divSelection = document.getElementById("page-selection")
+let mode_cherche = document.getElementById("cherche")
+let mode_aide = document.getElementById("aide")
+let motif = document.getElementById("motif")
+let lieu = document.getElementById("lieu")
+let validerSelection = document.getElementById("valid-selection")
 //pseudo
 let divPseudo = document.getElementById("page-pseudo")
 let pseudoInput = document.getElementById("pseudo")
@@ -9,9 +14,33 @@ let divChat = document.getElementById("page-chat")
 let textbox = document.getElementById("textarea")
 
 
-
-
 var socket = io();
+
+
+
+
+
+//selection
+function selection(){
+  console.log("ah")
+  let mode = (mode_cherche.checked)
+  console.log(mode); // true : recherche false: aide
+  let localisation = lieu.options[lieu.selectedIndex].value
+  let pour = motif.options[lieu.selectedIndex].value
+  socket.emit("selection",{"mode":mode,"localisation":localisation,"pour":pour})
+
+
+}
+
+
+validerSelection.onclick = selection
+
+
+
+
+
+
+
 
 
 // pseudo

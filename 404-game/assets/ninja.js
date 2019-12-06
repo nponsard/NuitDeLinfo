@@ -1,16 +1,26 @@
-var xpos = 10
+var xpos = 0
 var ypos = 400
 var score = 0.0
 var deplacement = -2
-var posxwalls = []
-var posywalls = []
+var posxwalls = [2]
+var posywalls = [0]
 var state = "play"
+var timerjump = 0
+var r = 0
+var g = 0
+var b = 0
 
 var c = document.getElementById("canvas")
 var ctx = c.getContext("2d")
-var img = document.getElementById("ninja")
+var ninja_1_left = document.getElementById("ninja_1_left")
+var ninja_1_right = document.getElementById("ninja_1_right")
+var ninja_2_left = document.getElementById("ninja_2_left")
+var ninja_2_right = document.getElementById("ninja_2_right")
+var ninja_3_left = document.getElementById("ninja_3_left")
+var ninja_3_right = document.getElementById("ninja_3_right")
 var wall = document.getElementById("wall")
-var wall2 = document.getElementById("wall2)
+var wall2 = document.getElementById("wall2")
+
 
 document.addEventListener('keydown', logKey);
 document.addEventListener('click' , logKey);
@@ -18,7 +28,25 @@ document.addEventListener('click' , logKey);
 
 function drawninja() {
   
-  ctx.drawImage(img, xpos, ypos)
+  if (xpos != 0 && xpos != 288)
+    timerjump = 50
+
+  if (xpos == 0 || xpos == 288)
+    --timerjump
+
+  if (xpos != 0 && xpos != 288 && deplacement > 0)
+    ctx.drawImage(ninja_2_left, xpos, ypos)
+  if (xpos != 0 && xpos != 288 && deplacement < 0)
+    ctx.drawImage(ninja_2_right, xpos, ypos)
+  if (xpos == 0 && timerjump <= 0)
+    ctx.drawImage(ninja_1_left, xpos, ypos)
+  if (xpos == 288 && timerjump <= 0)
+    ctx.drawImage(ninja_1_right, xpos, ypos)
+  if (xpos == 0 && timerjump > 0)
+    ctx.drawImage(ninja_3_right, xpos, ypos)
+  if (xpos == 288 && timerjump > 0)
+    ctx.drawImage(ninja_3_left, xpos, ypos)
+  
   xpos+= deplacement
   if (xpos >= 288)
     xpos=288
@@ -28,8 +56,12 @@ function drawninja() {
 
 function scrolling() {
     if (Math.floor(score)%100 == 0){
-      posxwalls.push(Math.floor(Math.random() * 19)*16)
+      posxwalls.push(Math.floor(Math.random() * 15)*16 + 34)
       posywalls.push(0)
+      if (deplacement < 0)
+        deplacement -= 0.0001
+      if (deplacement > 0)
+        deplacement += 0.0001
 
     }
     for (var i = 0; i < posxwalls.length; ++i){
@@ -48,7 +80,7 @@ function scrolling() {
 function collidetest() {
   for (var i = 0; i < posxwalls.length && state == "play"; ++i){
     state = "lose"
-    if ((xpos >= (posxwalls[i] + wall.width)) || ((xpos + ninja.width) <= posxwalls[i]) || (ypos >= (posywalls[i] + wall.height)) || ((ypos + ninja.height) <= posywalls[i]))
+    if ((xpos >= (posxwalls[i] + wall.width)) || ((xpos + ninja_1_left.width) <= posxwalls[i]) || (ypos >= (posywalls[i] + wall.height)) || ((ypos + ninja_1_left.height) <= posywalls[i]))
       state = "play"
   }
 }
@@ -59,6 +91,12 @@ function update() {
     drawninja()
     scrolling()
     document.getElementById('score').innerHTML = Math.floor(score/20)
+    document.getElementById('score').style = "color:rgb(" + r + "," + g + "," + b + ")"
+    if (Math.floor(score/20) >= 404 && score%50 == 0) {
+      r = Math.floor(Math.random()*256)
+      g = Math.floor(Math.random()*256)
+      b = Math.floor(Math.random()*256)
+    }
     collidetest()
     ++score
   }
@@ -70,13 +108,17 @@ setInterval(update, 10)
 
 function logKey(e) {
   if (state == "play") {
-    if (deplacement == -2 && xpos == 0){
-      deplacement = 2;
+    if (deplacement < 0 && xpos == 0){
+      deplacement = -1 * deplacement;
+      posxwalls.push(290)
+      posywalls.push(0)
     }
       
       
-    if (deplacement == 2 && xpos == 288){
-      deplacement = -2;
+    if (deplacement > 0 && xpos == 288){
+      deplacement = -1 * deplacement;
+      posxwalls.push(2)
+      posywalls.push(0)
     }
   }
 
@@ -88,6 +130,10 @@ function logKey(e) {
     posxwalls = []
     posywalls = []
     state = "play"
+    timerjump = 0
+    r = 0
+    g = 0
+    b = 0
   }
     
 }
