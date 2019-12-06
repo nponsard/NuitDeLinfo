@@ -9,9 +9,14 @@ let validerSelection = document.getElementById("valid-selection")
 let divPseudo = document.getElementById("page-pseudo")
 let pseudoInput = document.getElementById("pseudo")
 let validerPseudo = document.getElementById("valid-pseudo")
+divPseudo.style.display = "none"
+
 //chat
 let divChat = document.getElementById("page-chat")
 let textbox = document.getElementById("textarea")
+divChat.style.display = "none"
+
+let divSandbox = document.getElementById("sandbox")
 
 
 var socket = io();
@@ -28,7 +33,8 @@ function selection(){
   let localisation = lieu.options[lieu.selectedIndex].value
   let pour = motif.options[lieu.selectedIndex].value
   socket.emit("selection",{"mode":mode,"localisation":localisation,"pour":pour})
-
+  divSelection.style.display = "none"
+  divPseudo.style.display = "block"
 
 }
 
@@ -59,6 +65,34 @@ function pseudoUp(e){
 
 
 
+socket.on("openSession",(data)=>{
+    if (data.valid){
+      console.log(data)
+      if(!data.mode){
+        document.getElementById("titre").innerHTML = `Salle #${data.roomid} créée`
+      }else{
+        document.getElementById("titre").innerHTML = `Salle #${data.roomid} rejointe`
+      }
+      
+    }else{
+      document.getElementById("titre").innerHTML = "Désolé, aucune salle n'est disponible pour le moment, réessayez plus tard."
+      document.getElementById("textarea").style.display = "none"
+
+    }
+  })
+
+socket.on("newMessage",(data) =>{
+  let p = document.createElement("p")
+  let text = document.createTextNode(data.nom + " : " +data.contenu)
+  p.appendChild(text)
+  divSandbox.appendChild(p)
+  console.log(data)
+})
+
+/*{
+            "nom" : socket.pseudo,
+            "contenu": data
+          }*/
 
 
 // chat

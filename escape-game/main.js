@@ -1,30 +1,48 @@
 let timerElement = document.getElementById("timer")
 
 const start = new Date()
-const tempMax = new Date('0000-01-01T00:30:00');
+const tempMax = new Date('0000-01-01T00:05:00');
+const nulle = new Date('0000-01-01T00:00:00');
+
+var loop = setInterval(timer, 750);
 
 function timer(){
   var end = new Date()
   var diff = new Date(end - start)
   var tempsRest = new Date(tempMax - diff)
   timerElement.innerHTML = tempsRest.getMinutes() + ":" + tempsRest.getSeconds();
+  if (tempsRest < nulle){
+    let game = document.getElementById("game")
+    let perdu = document.getElementById("perdu")
+    game.style.display = "none"
+    perdu.style.display = "block"
+    clearTimeout(loop);
+  }
 }
-
-setInterval(timer, 750);
 
 //erreur
 let erreurE1 = document.getElementById("erreurE1")
 let erreurE2 = document.getElementById("erreurE2")
+let erreurE3 = document.getElementById("erreurE3")
+let erreurE4 = document.getElementById("erreurE4")
+let erreurE5 = document.getElementById("erreurE5")
 
 function clearErreur(){
   erreurE1.style.display = "none"
   erreurE2.style.display = "none"
+  erreurE3.style.display = "none"
+  erreurE4.style.display = "none"
+  erreurE5.style.display = "none"
 }
 
 function reset(){
     let div = document.getElementById("2")
     div.style.display = "none"
     div = document.getElementById("3")
+    div.style.display = "none"
+    div = document.getElementById("4")
+    div.style.display = "none"
+    div = document.getElementById("5")
     div.style.display = "none"
 }
 
@@ -49,8 +67,37 @@ function e2false() {
     reset();
 }
 
-//Enigme1  43.514660,5.451033
-//Enigme2  panneau(3) chiffre 
-//Enigme3  panneau(3) cesar
-//Enigme4  panneau(4) altbash
-//Enigme5  264537
+function e3true() {
+    let div4 = document.getElementById("4")
+    div4.style.display = "block"
+    clearErreur()
+}
+function e3false() {
+    erreurE3.style.display = "inline"
+    reset();
+}
+
+function e4true() {
+    let div5 = document.getElementById("5")
+    div5.style.display = "block"
+    clearErreur()
+}
+function e4false() {
+    erreurE4.style.display = "inline"
+    reset();
+}
+
+function e5(){
+  let deverrou = document.getElementById("deverrou")
+  if(deverrou.value === "264537"){
+    let fin = document.getElementById("fin")
+    fin.style.display = "block"
+    clearErreur()
+    clearTimeout(loop);
+  }
+  else {
+    erreurE5.style.display = "inline"
+    reset();
+  }
+}
+

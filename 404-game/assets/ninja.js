@@ -127,8 +127,8 @@ function logKey(e) {
     ypos = 400
     score = 0.0
     deplacement = -2
-    posxwalls = []
-    posywalls = []
+    posxwalls = [2]
+    posywalls = [0]
     state = "play"
     timerjump = 0
     r = 0

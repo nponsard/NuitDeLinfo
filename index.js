@@ -29,13 +29,68 @@ io.on('connection', function(socket){
     console.log('client disconnected');
   });
   socket.on('message',function(data){
-    console.log(`l'utilisateur ${socket.pseudo}#${socket.uid} a envoyé : \n ${data}`)
+    console.log(`l'utilisateur ${socket.pseudo}#${socket.uid} a envoyé : \n ${data} \n dans le salon #${socket.roomid}`)
+    for (let i = 0; i< rooms[socket.roomid].length ; ++i){
+          rooms[socket.roomid][i].emit("newMessage",{
+            "nom" : socket.pseudo,
+            "contenu": data
+          })
+        }
   })
   socket.on('register', function(data){
     socket.pseudo = data
     socket.uid = nextID
     ++nextID
     console.log(`${socket.pseudo} s'est connecté avec l'id #${socket.uid}`)
+    console.log(socket.mode)
+    if (!socket.mode){
+      console.log(rooms.length)
+      socket.roomid = rooms.length
+      rooms.push([socket])
+      socket.emit("openSession",{
+          "valid":true,
+          "roomid" : socket.roomid,
+          "noms": "",
+          "mode":socket.mode
+        })
+    } 
+    else
+    {
+      let dispo = []
+      let trouve = false;
+      for(let i = 0; i < rooms.length; ++i){
+        if ( rooms[i][0].localisation === socket.localisation && rooms[i][0].pour === socket.pour )
+        {
+          dispo.push(i)
+          trouve = true
+        }
+      }
+      if (trouve){
+        let salle = dispo[Math.floor( Math.random() * dispo.length)]
+        socket.roomid = salle
+        rooms[salle].push(socket)
+        noms =""
+        for (let i = 0; i< rooms[socket.roomid].length ; ++i){
+          noms+=rooms[socket.roomid][i].pseudo+" "
+        }
+        socket.emit("openSession", {
+          "valid":true,
+          "roomid" : socket.roomid,
+          "noms": noms,
+          "mode":socket.mode
+        })
+        for (let i = 0; i< rooms[socket.roomid].length ; ++i){
+          rooms[socket.roomid][i].emit("newMessage",{
+            "nom" : "serveur",
+            "contenu":`${socket.pseudo} a rejoint la salle`
+          })
+        }
+      }else{
+        socket.emit("openSession", {
+          valid:false
+        })
+      }
+    }
   })
   socket.on('selection',function(data){
     // true : recherche false: aide
@@ -44,39 +99,9 @@ io.on('connection', function(socket){
     socket.mode = data.mode
     socket.localisation = data.localisation
     socket.pour = data.pour
-
-    if (data.mode){
-      socket.roomid = rooms.length
-      rooms.push([socket])
-    } 
-    else
-    {
-      let trouve = false;
-      for(let i = 0; i < rooms.length; ++i){
-        if (rooms[i].length <= 3 && rooms[i][0].localisation === socket.localisation && rooms[i][0].pour === socket.pour )
-        {
-          socket.roomid = i
-          rooms[i].push(socket)
-          trouve = true
-          break;
-        }
-      }
-      if (trouve){
-        noms =[]
-        for (let i = 0; i< rooms[socket.roomid].length ; ++i){
-          noms.push()
-        }
-        socket.emit("openSession", {
-          "roomid" : socket.roomid,
-          "noms": noms,
-          mode
-        })
-      }
-    }
-
-
-
   })
+  
+
 });
 
 
@@ -104,11 +129,10 @@ io.on('connection', function(socket){
 
 
 app.use('/main', express.static(__dirname + '/main-site'));
-app.use('/404', express.static(__dirname + '/404-game'));
+//app.use('/404', express.static(__dirname + '/404-game'));
 app.use('/rickroll', express.static(__dirname + '/Rickroll'));
 app.use('/escape', express.static(__dirname + '/escape-game'));
-app.use('/chat', express.static(__dirname + '/chat'));
-app.use('/', express.static(__dirname + '/.'));
+app.use('/', express.static(__dirname + '/chat'));
 
 
 app.use(function(req, res, next) {
