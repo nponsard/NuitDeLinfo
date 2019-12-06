@@ -5,22 +5,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" href="img/logo.webp">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/base.css">
+    <link id="style-theme" rel="stylesheet" href="css/style-black.css">
+    <script src="js/theme.js"></script>
+    <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="css/buttons.css">
+    <link rel="stylesheet" media="only screen and (max-width: 700px)" href="css/mobile.css">
+    <link rel="stylesheet" href="css/normalize.css">
+    <noscript>
+        <link rel="stylesheet" href="css/noscript.css">
+    </noscript>
     <title>Student helper</title>
 </head>
 
 <body>
     <header>
-        <nav>
-        </nav>
+        <nav id="top">
+        <div onclick="toogleExpand()" class="nav-mobile">
+            <p>
+                MENU
+            </p>
+            <div id="nav-dropdown" class="dropdown">
+                <a href="#" class="nav-lien active">Acceuil</a>
+                <a class="nav-lien " href="projets.html">Projets</a>
+                <a class="nav-lien" href="contact.html">Contact</a>
+                <a class="nav-lien" href="https://github.com/NilsPonsard">GitHub-pro</a>
+                <a class="nav-lien" href="https://github.com/sautax">GitHub-personnel</a>
+                <a class="nav-lien" onclick="toogleTheme()" href="#">toogle theme</a>
+
+            </div>
+
+        </div>
+        <div class="nav-pc">
+
+            <ul class="nav">
+                <li class=""> <a href="index.html" class="nav-lien active">Acceuil</a></li>
+                <li class=""><a class="nav-lien" href="#">Projets</a></li>
+                <li class=""><a class="nav-lien" href="contact.html">Contact</a></li>
+                
+            </ul>
+        </div>
+    </nav>
     </header>
 
-    <div id="main">
+    <div id="contenu">
 
     </div>
 
     <footer>
-        <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License"
+      <p class="centre">
+
+
+        <a class="centre" rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License"
                 style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
+      </p>
     </footer>
 </body>
 
